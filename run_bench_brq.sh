@@ -19,8 +19,7 @@ output_folder='results/MP3/brq'
 DatasetsFolders=('/corpus/LibriSpeech/')
 ConsideredTasks=('LibriSpeech')
 DownStreams=('contextnet')
-csv_location=/gpfswork/rech/nkp/uaj64gk/attention_alt/brq-att-alt-exp/results/MP3S
-benchmark_location=/gpfswork/rech/nkp/uaj64gk/attention_alt/benchmarks
+csv_location=/users/rwhetten/best-rq-test/results
 
 # run pyctcdecode
 for i in "${!ConsideredTasks[@]}"; do
@@ -30,7 +29,7 @@ for i in "${!ConsideredTasks[@]}"; do
 	python train.py ssl_brq.yaml \
 		--num_layers_ssl $num_layers --ssl_hub $hub --encoder_dim $encoder_dim --output_folder $output_folder/$task/$downstream --data_folder $dataset_folder \
 		--ngram_lm_path /users/rwhetten/best-rq-test/benchmark/4-gram.arpa.gz --language_modelling True --test_only \
-		--csv_location /users/rwhetten/best-rq-test/results
+		--csv_location $csv_location
 done
 
 # run with speachbrain decode
@@ -41,5 +40,5 @@ for i in "${!ConsideredTasks[@]}"; do
 	python train_sb_dec.py ssl_brq.yaml \
 		--num_layers_ssl $num_layers --ssl_hub $hub --encoder_dim $encoder_dim --output_folder $output_folder/$task/$downstream --data_folder $dataset_folder \
 		--ngram_lm_path /users/rwhetten/best-rq-test/benchmark/4-gram.arpa.gz --language_modelling True --test_only \
-		--csv_location /users/rwhetten/best-rq-test/results
+		--csv_location $csv_location
 done
